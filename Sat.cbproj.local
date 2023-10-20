@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.324,D:\Старый комп\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Core.h=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.547,C:\Dima\Магистратура\Курсовая IV курс\Абсолютный метод\Navi\GEMTEC.h=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.135,=C:\Dima\Магистратура\Курсовая IV курс\Абсолютный метод\Navi\File1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.455,C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\core.h=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.065,=C:\Dima\Магистратура\Курсовая IV курс\Координаты спутников\Sat\File1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.040,=D:\Старый комп\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\SP3.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.150,C:\Dima\Магистратура\Курсовая IV курс\Абсолютный метод\Navi\File1.h=C:\Dima\Магистратура\Курсовая IV курс\Абсолютный метод\Navi\GEMTEC.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.371,C:\Dima\Магистратура\Курсовая IV курс\Координаты спутников\Sat\main.h=C:\Dima\Магистратура\Курсовая IV курс\Координаты спутников\Sat\File1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.458,=C:\Users\XXX\Documents\RAD Studio\Projects\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.276,=C:\Users\XXX\Documents\RAD Studio\Projects\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.768,C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\functions.c=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\core.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.024,=C:\Users\XXX\Documents\RAD Studio\Projects\File1.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.151,C:\Dima\Магистратура\Курсовая IV курс\Координаты спутников\Sat\main.c=C:\Dima\Магистратура\Курсовая IV курс\Абсолютный метод\Navi\NaviMain.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.977,=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Core.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.221,=C:\Users\XXX\Documents\RAD Studio\Projects\Project3.res</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.409,=C:\Users\XXX\Documents\RAD Studio\Projects\Project3.res</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.372,D:\Учёба\Курсовая IV курс\Абсолютный метод\Navi\NaviMain.c=C:\Users\XXX\Desktop\NaviMain777.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.088,=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\CoreConstants.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.146,=D:\Старый комп\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\RINEX.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.314,=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\CoreConstants.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.078,=D:\Учёба\Курсовая IV курс\Абсолютный метод\Navi\NaviMain.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.688,D:\Navi\Navi.cbproj=C:\Users\XXX\Documents\RAD Studio\Projects\Project3.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.396,C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Core.h=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.299,=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Core.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.331,=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\DataFiles.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.240,C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\main.h=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.292,C:\Dima\Учёба\Курсовая IV курс\Абсолютный метод\Navi\Navi_XE7.cbproj=C:\Dima\Учёба\Курсовая IV курс\Абсолютный метод\Navi\Navi.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.522,C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\functions.h=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\core.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.260,=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Constants.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.512,D:\Navi\NaviMain.c=C:\Users\XXX\Documents\RAD Studio\Projects\File1.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.763,=C:\Dima\Магистратура\Курсовая IV курс\Координаты спутников\Sat\functions.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.240,=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Constants.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.096,D:\Старый комп\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Core.c=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.099,=D:\Старый комп\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Common.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.161,=D:\Старый комп\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\SP3.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.648,=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Core.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.289,=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Core.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.285,C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Core.c=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.845,C:\Dima\Магистратура\Курсовая IV курс\Абсолютный метод\Navi\functions.c=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.018,=C:\Dima\Магистратура\Курсовая IV курс\Абсолютный метод\Navi\functions.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.487,C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\core.c=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.222,=C:\Dima\Магистратура\Курсовая IV курс\Абсолютный метод\Navi\functions.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.130,=D:\Старый комп\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Ephemeris.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.307,C:\Dima\Магистратура\Курсовая IV курс\Координаты спутников\Sat\Sat.cbproj=C:\Dima\Магистратура\Курсовая IV курс\Абсолютный метод\Navi\Navi_XE7.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.993,=D:\Старый комп\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Common.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.009,=D:\Старый комп\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\Ephemeris.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.832,=C:\Dima\Магистратура\Курсовая IV курс\Координаты спутников\Sat\navigation.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.742,C:\Dima\Магистратура\Курсовая IV курс\Координаты спутников\Sat\navigation.h=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.759,=D:\CodeGear RAD Studio XE\Common Files\CodeGear Shared\Images\GlyFX\Icons\Aero\BMP\48x48\save_48.bmp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.390,=C:\Dima\Магистратура\Курсовая IV курс\Координаты спутников\Sat\functions.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.322,=C:\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\DataFiles.c</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.936,C:\Dima\Магистратура\Курсовая IV курс\Абсолютный метод\Navi\functions.h=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.687,D:\CodeGear RAD Studio XE\Common Files\CodeGear Shared\Images\GlyFX\Icons\Aero\BMP\48x48\save_48.bmp=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.932,C:\Users\XXX\Desktop\NaviMain777.c=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.024,=D:\Старый комп\Dima\Специалитет\Курсовая IV курс\Координаты спутников\Sat\RINEX.h</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile Android="Old"/>
+	</ActiveMobileDevice>
+	<BT_BuildType>Debug</BT_BuildType>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="main.c"/>
+    <File Path="Constants.c"/>
+    <File Path="Constants.h"/>
+    <File Path="Common.c"/>
+    <File Path="Common.h"/>
+    <File Path="DataFiles.c"/>
+    <File Path="DataFiles.h"/>
+    <File Path="Ephemeris.c"/>
+    <File Path="Ephemeris.h"/>
+    <File Path="RINEX.c"/>
+    <File Path="RINEX.h"/>
+    <File Path="SP3.c"/>
+    <File Path="SP3.h"/>
+  </ProjectSortOrder>
+</BorlandProject>
