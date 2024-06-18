@@ -13,7 +13,8 @@ enum GALNavMsgType
 
 struct Sattelite
 {
-	char Valid, Number[2];           // Пригодность измерений данного спутника,
+	char Valid,
+		 Number[2];                  // Пригодность измерений данного спутника,
 									 // Идентификатор спутника
     enum GALNavMsgType GALNavMsgType;
 	double toc,                      // Время эфемерид UNIX, с
@@ -65,6 +66,8 @@ int GetIndex(char*, char);
 double sqr(double);
 void WGS84ToPZ90_02(double, double, double, double*, double*, double*);
 void PZ90_02ToWGS84(double, double, double, double*, double*, double*);
+double Linear(double*, double*, double, int);
+double Lagrange(double*, double*, double, int);
 double Neville(double*, double*, double, int);
 double Azimuth(double, double, double, double, double, double);
 double Elevation(double, double, double, double, double, double);

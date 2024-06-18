@@ -55,7 +55,7 @@ int ReadSP3Ephemeris(char *EphemerisFileName, struct SP3 *SP3)
 		fgets(CurrentString, BYTES_OF_STRING, EphemerisFile);
 	}
 
-    	for(i = 0; i < 85; i += 17)
+	for(i = 0; i < 85; i += 17)
 	{
 		fgets(CurrentString, BYTES_OF_STRING, EphemerisFile);
 	}

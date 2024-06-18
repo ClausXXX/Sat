@@ -190,22 +190,23 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 					  struct InterpolationPoints *InterpolationPoints,
 					  double CurrentTime, double NullTime)
 {
-	const int GLOFreqLiters[24] = { 1, -4, 5,  6, 1, -4, 5, 6, -2, -7, 0, -1,
-								   -2, -7, 0, -1, 4, -3, 3, 2,  4, -3, 3,  2};
-	int Index1, Index2, i, j, k, l, m;
+	const int GLOFreqLiters[26] = { 1, -4, 5,  6, 1, -4, 5, 6, -2, -7, 0, -1,
+								   -2, -7, 0, -1, 4, -3, 3, 2,  4, -3, 3,  2
+								   -8,  6};
+	int InterpolationOrder = INTERPOLATION_ORDER, Index1, Index2, i, j, k, l, m;
 	double deltat, tau;
 	for(i = 0; i < Settings->NumberOfSattelites; i++)
 	{
 
-		if(INTERPOLATION_ORDER % 2 == 0)
+		if(InterpolationOrder % 2 == 0)
 		{
-			Index1 = -INTERPOLATION_ORDER / 2;
-			Index2 = INTERPOLATION_ORDER / 2;
+			Index1 = -InterpolationOrder / 2;
+			Index2 = InterpolationOrder / 2;
 		}
 		else
 		{
-			Index1 = -INTERPOLATION_ORDER / 2;
-			Index2 = INTERPOLATION_ORDER / 2 + 1;
+			Index1 = -InterpolationOrder / 2;
+			Index2 = InterpolationOrder / 2 + 1;
 		}
 
 		while((CurrentTime + SP3->Step * Index1) <= NullTime)
@@ -232,10 +233,10 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 					   SP3->GPSEphemeris[l].Number[1] == Settings->Sattelites[i][1] &&
 					   deltat <= SP3->Step)
 					{
-						if(SP3->GPSEphemeris[l].x >= 999999.0 ||
-						   SP3->GPSEphemeris[l].y >= 999999.0 ||
-						   SP3->GPSEphemeris[l].z >= 999999.0 ||
-						   SP3->GPSEphemeris[l].dt >= 999999.0)
+						if(SP3->GPSEphemeris[l].x == 0.0 ||
+						   SP3->GPSEphemeris[l].y == 0.0 ||
+						   SP3->GPSEphemeris[l].z == 0.0 ||
+						   SP3->GPSEphemeris[l].dt == 999999.9999)
 						{
 							Sattelites[i].Valid = 0;
 							k = Index2 + 1;
@@ -248,6 +249,7 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 								Sattelites[i].Valid = 1;
 								Sattelites[i].Number[0] = SP3->GPSEphemeris[l].Number[0];
 								Sattelites[i].Number[1] = SP3->GPSEphemeris[l].Number[1];
+								Sattelites[i].tk = CurrentTime;
 							}
 							InterpolationPoints[i].x[m] = SP3->GPSEphemeris[l].x * 1000.0;
 							InterpolationPoints[i].y[m] = SP3->GPSEphemeris[l].y * 1000.0;
@@ -275,10 +277,10 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 					   SP3->GLOEphemeris[l].Number[1] == Settings->Sattelites[i][1] &&
 					   deltat <= SP3->Step)
 					{
-						if(SP3->GLOEphemeris[l].x >= 999999.0 ||
-						   SP3->GLOEphemeris[l].y >= 999999.0 ||
-						   SP3->GLOEphemeris[l].z >= 999999.0 ||
-						   SP3->GLOEphemeris[l].dt >= 999999.0)
+						if(SP3->GLOEphemeris[l].x == 0.0 ||
+						   SP3->GLOEphemeris[l].y == 0.0 ||
+						   SP3->GLOEphemeris[l].z == 0.0 ||
+						   SP3->GLOEphemeris[l].dt == 999999.9999)
 						{
 							Sattelites[i].Valid = 0;
 							k = Index2 + 1;
@@ -292,6 +294,7 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 								Sattelites[i].Number[0] = SP3->GLOEphemeris[l].Number[0];
 								Sattelites[i].Number[1] = SP3->GLOEphemeris[l].Number[1];
 								Sattelites[i].k = GLOFreqLiters[Sattelites[i].Number[1] - 1];
+								Sattelites[i].tk = CurrentTime;
 							}
 							InterpolationPoints[i].x[m] = SP3->GLOEphemeris[l].x * 1000.0;
 							InterpolationPoints[i].y[m] = SP3->GLOEphemeris[l].y * 1000.0;
@@ -319,10 +322,10 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 					   SP3->GALEphemeris[l].Number[1] == Settings->Sattelites[i][1] &&
 					   deltat <= SP3->Step)
 					{
-						if(SP3->GALEphemeris[l].x >= 999999.0 ||
-						   SP3->GALEphemeris[l].y >= 999999.0 ||
-						   SP3->GALEphemeris[l].z >= 999999.0 ||
-						   SP3->GALEphemeris[l].dt >= 999999.0)
+						if(SP3->GALEphemeris[l].x == 0.0 ||
+						   SP3->GALEphemeris[l].y == 0.0 ||
+						   SP3->GALEphemeris[l].z == 0.0 ||
+						   SP3->GALEphemeris[l].dt == 999999.9999)
 						{
 							Sattelites[i].Valid = 0;
 							k = Index2 + 1;
@@ -335,6 +338,7 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 								Sattelites[i].Valid = 1;
 								Sattelites[i].Number[0] = SP3->GALEphemeris[l].Number[0];
 								Sattelites[i].Number[1] = SP3->GALEphemeris[l].Number[1];
+								Sattelites[i].tk = CurrentTime;
 							}
 							InterpolationPoints[i].x[m] = SP3->GALEphemeris[l].x * 1000.0;
 							InterpolationPoints[i].y[m] = SP3->GALEphemeris[l].y * 1000.0;
@@ -363,10 +367,10 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 					   SP3->BDSEphemeris[l].Number[1] == Settings->Sattelites[i][1] &&
 					   deltat <= SP3->Step)
 					{
-						if(SP3->BDSEphemeris[l].x >= 999999.0 ||
-						   SP3->BDSEphemeris[l].y >= 999999.0 ||
-						   SP3->BDSEphemeris[l].z >= 999999.0 ||
-						   SP3->BDSEphemeris[l].dt >= 999999.0)
+						if(SP3->BDSEphemeris[l].x == 0.0 ||
+						   SP3->BDSEphemeris[l].y == 0.0 ||
+						   SP3->BDSEphemeris[l].z == 0.0 ||
+						   SP3->BDSEphemeris[l].dt == 999999.9999)
 						{
 							Sattelites[i].Valid = 0;
 							k = Index2 + 1;
@@ -379,6 +383,7 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 								Sattelites[i].Valid = 1;
 								Sattelites[i].Number[0] = SP3->BDSEphemeris[l].Number[0];
 								Sattelites[i].Number[1] = SP3->BDSEphemeris[l].Number[1];
+                                Sattelites[i].tk = CurrentTime;
 							}
 							InterpolationPoints[i].x[m] = SP3->BDSEphemeris[l].x * 1000.0;
 							InterpolationPoints[i].y[m] = SP3->BDSEphemeris[l].y * 1000.0;

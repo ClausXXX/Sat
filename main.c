@@ -26,9 +26,9 @@ int main(int argc, char **argv)
 		 *Pch, CurrentString[BYTES_OF_STRING], OutputFileName[MAXPATH],
 		 OutputFileString[BYTES_OF_STRING];
 	short Year;
-	int i, j, k, l, m, Index1, Index2;
+	int i, j, k;
 	float Seconds;
-	double deltat, tau, theta, NullTime, CurrentTime;
+	double deltat, tau = 0, theta, NullTime, CurrentTime;
 	FILE *outputfile = NULL;
 	size_t SizeOfChar = sizeof(char);
 	size_t SizeOfCharPtr = sizeof(char*);
@@ -388,119 +388,141 @@ int main(int argc, char **argv)
 							PZ90_02ToWGS84(Sattelites[i].xi, Sattelites[i].yi, Sattelites[i].zi,
 										  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
 							Sattelites[i].dt = -Sattelites[i].TauN + Sattelites[i].GammaN * Sattelites[i].tk;
-							//Sattelites[i].tk = RINEXObs->Epochs[RINEXObs->CurrentEpoch].t - tau - Sattelites[i].dt - Sattelites[i].toc;
 						}
 
 					}
 
 					if(Ephemeris == PRECISE)
 					{
-						Sattelites[i].dt = Neville(InterpolationPoints[i].dt,
-												   InterpolationPoints[i].toc,
-												   CurrentTime - tau - Sattelites[i].dt,
-												   INTERPOLATION_ORDER + 1);
+
 						Sattelites[i].x = Neville(InterpolationPoints[i].x,
 												  InterpolationPoints[i].toc,
-												  CurrentTime - tau - Sattelites[i].dt,
+												  Sattelites[i].tk,
 												  INTERPOLATION_ORDER + 1);
 						Sattelites[i].y = Neville(InterpolationPoints[i].y,
 												  InterpolationPoints[i].toc,
-												  CurrentTime - tau - Sattelites[i].dt,
+												  Sattelites[i].tk,
 												  INTERPOLATION_ORDER + 1);
 						Sattelites[i].z = Neville(InterpolationPoints[i].z,
 												  InterpolationPoints[i].toc,
-												  CurrentTime - tau - Sattelites[i].dt,
+												  Sattelites[i].tk,
 												  INTERPOLATION_ORDER + 1);
-						Sattelites[i].vx = Neville(InterpolationPoints[i].vx,
-												  InterpolationPoints[i].toc,
-												  CurrentTime - tau - Sattelites[i].dt,
-												  INTERPOLATION_ORDER + 1);
-						Sattelites[i].vy = Neville(InterpolationPoints[i].vy,
-												  InterpolationPoints[i].toc,
-												  CurrentTime - tau - Sattelites[i].dt,
-												  INTERPOLATION_ORDER + 1);
-						Sattelites[i].vz = Neville(InterpolationPoints[i].vz,
-												  InterpolationPoints[i].toc,
-												  CurrentTime - tau - Sattelites[i].dt,
-												  INTERPOLATION_ORDER + 1);
+						Sattelites[i].dt = Linear(InterpolationPoints[i].dt,
+												   InterpolationPoints[i].toc,
+												   Sattelites[i].tk,
+												   INTERPOLATION_ORDER + 1);
+						if(!Settings.SimpleVelocity)
+						{
+							Sattelites[i].vx = Neville(InterpolationPoints[i].vx,
+													  InterpolationPoints[i].toc,
+													  Sattelites[i].tk,
+													  INTERPOLATION_ORDER + 1);
+							Sattelites[i].vy = Neville(InterpolationPoints[i].vy,
+													  InterpolationPoints[i].toc,
+													  Sattelites[i].tk,
+													  INTERPOLATION_ORDER + 1);
+							Sattelites[i].vz = Neville(InterpolationPoints[i].vz,
+													  InterpolationPoints[i].toc,
+													  Sattelites[i].tk,
+													  INTERPOLATION_ORDER + 1);
+						}
 					}
 
 					if(Settings.SimpleVelocity)
 					{
-						if(Sattelites[i].x0 || Sattelites[i].y0 || Sattelites[i].z0)
+						if(Ephemeris == BOARD)
 						{
-							if(Ephemeris == BOARD)
+							//Фиксация текущих координат
+							Sattelites[i].vx0 = Sattelites[i].x;
+							Sattelites[i].vy0 = Sattelites[i].y;
+							Sattelites[i].vz0 = Sattelites[i].z;
+							//Расчёт предыдущихкоординат
+							Sattelites[i].tk -= Settings.Step;
+							if(Settings.Sattelites[i][0] == 'G' ||
+							   Settings.Sattelites[i][0] == 'E' ||
+							   Settings.Sattelites[i][0] == 'C')
 							{
-								Sattelites[i].vx0 = Sattelites[i].x;
-								Sattelites[i].vy0 = Sattelites[i].y;
-								Sattelites[i].vz0 = Sattelites[i].z;
-								Sattelites[i].tk += Settings.Step;
-								if(Settings.Sattelites[i][0] == 'G' ||
-								   Settings.Sattelites[i][0] == 'E' ||
-								   Settings.Sattelites[i][0] == 'C')
-								{
-									GPSSatteliteXV(&Sattelites[i], 0);
-									Sattelites[i].dt = Sattelites[i].a0 +
-												   Sattelites[i].a1 * Sattelites[i].tk +
-												   Sattelites[i].a2 * sqr(Sattelites[i].tk)
-												   + C * Sattelites[i].e * Sattelites[i].sqrta * sin(Sattelites[i].E);
-												   //- 2.0 * (Sattelites[i].x * Sattelites[i].vx + Sattelites[i].y * Sattelites[i].vy + Sattelites[i].z * Sattelites[i].vz) / sqr(c);
-								   //	printf("\n%d %lf %lf %lf", Sattelites[i].Number[1], Sattelites[i].vx, Sattelites[i].vy, Sattelites[i].vz);
-
-								}
-
-								if(Settings.Sattelites[i][0] == 'R')
-								{
-									WGS84ToPZ90_02(Sattelites[i].x0, Sattelites[i].y0, Sattelites[i].z0,
-													  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
-									GLOSatteliteXV(&Sattelites[i]);
-									PZ90_02ToWGS84(Sattelites[i].xi, Sattelites[i].yi, Sattelites[i].zi,
-												  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
-									Sattelites[i].dt = -Sattelites[i].TauN + Sattelites[i].GammaN * Sattelites[i].tk;
-									//Sattelites[i].tk = RINEXObs->Epochs[RINEXObs->CurrentEpoch].t - tau - Sattelites[i].dt - Sattelites[i].toc;
-								}
-								Sattelites[i].xi = Sattelites[i].x;
-								Sattelites[i].yi = Sattelites[i].y;
-								Sattelites[i].zi = Sattelites[i].z;
-								Sattelites[i].x = Sattelites[i].vx0;
-								Sattelites[i].y = Sattelites[i].vy0;
-								Sattelites[i].z = Sattelites[i].vz0;
-                                Sattelites[i].tk -= Settings.Step;
-                            }
-
-							if(Ephemeris == PRECISE)
-							{
-								Sattelites[i].xi =
-								Neville(InterpolationPoints[i].x,
-										InterpolationPoints[i].toc,
-										CurrentTime + Settings.Step - tau - Sattelites[i].dt,
-										INTERPOLATION_ORDER + 1);
-								Sattelites[i].yi =
-								Neville(InterpolationPoints[i].y,
-										InterpolationPoints[i].toc,
-										CurrentTime + Settings.Step - tau - Sattelites[i].dt,
-										INTERPOLATION_ORDER + 1);
-								Sattelites[i].zi =
-								Neville(InterpolationPoints[i].z,
-										InterpolationPoints[i].toc,
-										CurrentTime + Settings.Step - tau - Sattelites[i].dt,
-										INTERPOLATION_ORDER + 1);
+								GPSSatteliteXV(&Sattelites[i], 0);
 							}
-							Sattelites[i].vx = (Sattelites[i].xi - Sattelites[i].x0) / (2.0 * Settings.Step);
-							Sattelites[i].vy = (Sattelites[i].yi - Sattelites[i].y0) / (2.0 * Settings.Step);
-							Sattelites[i].vz = (Sattelites[i].zi - Sattelites[i].z0) / (2.0 * Settings.Step);
-						}
 
-						if(j == 1)
-						{
+							if(Settings.Sattelites[i][0] == 'R')
+							{
+								WGS84ToPZ90_02(Sattelites[i].x0, Sattelites[i].y0, Sattelites[i].z0,
+												  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
+								GLOSatteliteXV(&Sattelites[i]);
+								PZ90_02ToWGS84(Sattelites[i].xi, Sattelites[i].yi, Sattelites[i].zi,
+											  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
+							}
 							Sattelites[i].x0 = Sattelites[i].x;
 							Sattelites[i].y0 = Sattelites[i].y;
 							Sattelites[i].z0 = Sattelites[i].z;
+							//Расчёт следующих координат
+							Sattelites[i].tk += 2.0 * Settings.Step;
+							if(Settings.Sattelites[i][0] == 'G' ||
+							   Settings.Sattelites[i][0] == 'E' ||
+							   Settings.Sattelites[i][0] == 'C')
+							{
+								GPSSatteliteXV(&Sattelites[i], 0);
+							}
+
+							if(Settings.Sattelites[i][0] == 'R')
+							{
+								WGS84ToPZ90_02(Sattelites[i].x0, Sattelites[i].y0, Sattelites[i].z0,
+												  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
+								GLOSatteliteXV(&Sattelites[i]);
+								PZ90_02ToWGS84(Sattelites[i].xi, Sattelites[i].yi, Sattelites[i].zi,
+											  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
+							}
+							Sattelites[i].xi = Sattelites[i].x;
+							Sattelites[i].yi = Sattelites[i].y;
+							Sattelites[i].zi = Sattelites[i].z;
+							Sattelites[i].x = Sattelites[i].vx0;
+							Sattelites[i].y = Sattelites[i].vy0;
+							Sattelites[i].z = Sattelites[i].vz0;
+							Sattelites[i].tk -= Settings.Step;
 						}
+
+						if(Ephemeris == PRECISE)
+						{
+							Sattelites[i].tk -= Settings.Step;
+							Sattelites[i].x0 =
+							Neville(InterpolationPoints[i].x,
+									InterpolationPoints[i].toc,
+									Sattelites[i].tk,
+									INTERPOLATION_ORDER + 1);
+							Sattelites[i].y0 =
+							Neville(InterpolationPoints[i].y,
+									InterpolationPoints[i].toc,
+									Sattelites[i].tk,
+									INTERPOLATION_ORDER + 1);
+							Sattelites[i].z0 =
+							Neville(InterpolationPoints[i].z,
+									InterpolationPoints[i].toc,
+									Sattelites[i].tk,
+									INTERPOLATION_ORDER + 1);
+							Sattelites[i].tk += 2.0 * Settings.Step;
+							Sattelites[i].xi =
+							Neville(InterpolationPoints[i].x,
+									InterpolationPoints[i].toc,
+									Sattelites[i].tk,
+									INTERPOLATION_ORDER + 1);
+							Sattelites[i].yi =
+							Neville(InterpolationPoints[i].y,
+									InterpolationPoints[i].toc,
+									Sattelites[i].tk,
+									INTERPOLATION_ORDER + 1);
+							Sattelites[i].zi =
+							Neville(InterpolationPoints[i].z,
+									InterpolationPoints[i].toc,
+									Sattelites[i].tk,
+									INTERPOLATION_ORDER + 1);
+							Sattelites[i].tk -= Settings.Step;
+						}
+						Sattelites[i].vx = (Sattelites[i].xi - Sattelites[i].x0) / (2.0 * Settings.Step);
+						Sattelites[i].vy = (Sattelites[i].yi - Sattelites[i].y0) / (2.0 * Settings.Step);
+						Sattelites[i].vz = (Sattelites[i].zi - Sattelites[i].z0) / (2.0 * Settings.Step);
 					}
-				   //  -1465.087     -1529.800      1631.551
-                   //  -1465.085     -1529.808      1631.556
-					tau = 0.0;
+
 					if(Settings.x || Settings.y || Settings.z)
 					{
 						for(k = 0; k < 2; k++)
@@ -526,6 +548,11 @@ int main(int argc, char **argv)
 					if(Ephemeris == BOARD)
 					{
 						Sattelites[i].tk = CurrentTime - tau - Sattelites[i].dt - Sattelites[i].toc;
+					}
+
+					if(Ephemeris == PRECISE)
+					{
+						Sattelites[i].tk = CurrentTime - tau - Sattelites[i].dt;
 					}
 				}
 				UNIXTimeToDateTime(CurrentTime, &Year, &Month, &Day,
@@ -575,7 +602,7 @@ int main(int argc, char **argv)
 		CurrentTime += Settings.Step;
 		if(kbhit() && getch() == 27)
 		{
-			CurrentTime = Settings.FinalTime;
+			CurrentTime = Settings.FinalTime + 1;
 		}
 	}
 	fclose(outputfile);
