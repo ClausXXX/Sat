@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 	short Year;
 	int i, j, k;
 	float Seconds;
-	double deltat, tau = 0, theta, NullTime, CurrentTime;
+	double deltat, tau = 0, theta, NullTime, CurrentTime, x[3], y[3], z[3];
 	FILE *outputfile = NULL;
 	size_t SizeOfChar = sizeof(char);
 	size_t SizeOfCharPtr = sizeof(char*);
@@ -357,13 +357,6 @@ int main(int argc, char **argv)
 			{
 				for(j = 0; j < 2; j++)
 				{
-					if(Settings.SimpleVelocity)
-					{
-						Sattelites[i].vx = 0.0;
-						Sattelites[i].vy = 0.0;
-						Sattelites[i].vz = 0.0;
-					}
-
 					if(Ephemeris == BOARD)
 					{
 						if(Settings.Sattelites[i][0] == 'G' ||
@@ -383,10 +376,16 @@ int main(int argc, char **argv)
 						if(Settings.Sattelites[i][0] == 'R')
 						{
 							WGS84ToPZ90_02(Sattelites[i].x0, Sattelites[i].y0, Sattelites[i].z0,
-											  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
+										   &x[1], &y[1], &z[1]);
+							Sattelites[i].x0 = x[1];
+							Sattelites[i].y0 = y[1];
+							Sattelites[i].z0 = z[1];
 							GLOSatteliteXV(&Sattelites[i]);
-							PZ90_02ToWGS84(Sattelites[i].xi, Sattelites[i].yi, Sattelites[i].zi,
-										  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
+							PZ90_02ToWGS84(Sattelites[i].x, Sattelites[i].y, Sattelites[i].z,
+										   &x[1], &y[1], &z[1]);
+							Sattelites[i].x = x[1];
+							Sattelites[i].y = y[1];
+							Sattelites[i].z = z[1];
 							Sattelites[i].dt = -Sattelites[i].TauN + Sattelites[i].GammaN * Sattelites[i].tk;
 						}
 
@@ -430,14 +429,17 @@ int main(int argc, char **argv)
 
 					if(Settings.SimpleVelocity)
 					{
+//						Sattelites[i].vx = 0.0;
+//						Sattelites[i].vy = 0.0;
+//						Sattelites[i].vz = 0.0;
 						if(Ephemeris == BOARD)
 						{
-							//Фиксация текущих координат
-							Sattelites[i].vx0 = Sattelites[i].x;
-							Sattelites[i].vy0 = Sattelites[i].y;
-							Sattelites[i].vz0 = Sattelites[i].z;
-							//Расчёт предыдущихкоординат
-							Sattelites[i].tk -= Settings.Step;
+                            //Фиксация текущих координат
+							x[2] = Sattelites[i].x;
+							y[2] = Sattelites[i].y;
+							z[2] = Sattelites[i].z;
+							//Расчёт предыдущих координат
+							Sattelites[i].tk -= 1.0;
 							if(Settings.Sattelites[i][0] == 'G' ||
 							   Settings.Sattelites[i][0] == 'E' ||
 							   Settings.Sattelites[i][0] == 'C')
@@ -448,16 +450,23 @@ int main(int argc, char **argv)
 							if(Settings.Sattelites[i][0] == 'R')
 							{
 								WGS84ToPZ90_02(Sattelites[i].x0, Sattelites[i].y0, Sattelites[i].z0,
-												  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
+										   &x[1], &y[1], &z[1]);
+								Sattelites[i].x0 = x[1];
+								Sattelites[i].y0 = y[1];
+								Sattelites[i].z0 = z[1];
 								GLOSatteliteXV(&Sattelites[i]);
-								PZ90_02ToWGS84(Sattelites[i].xi, Sattelites[i].yi, Sattelites[i].zi,
-											  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
+								PZ90_02ToWGS84(Sattelites[i].x, Sattelites[i].y, Sattelites[i].z,
+											   &x[1], &y[1], &z[1]);
+								Sattelites[i].x = x[1];
+								Sattelites[i].y = y[1];
+								Sattelites[i].z = z[1];
 							}
-							Sattelites[i].x0 = Sattelites[i].x;
-							Sattelites[i].y0 = Sattelites[i].y;
-							Sattelites[i].z0 = Sattelites[i].z;
+							Sattelites[i].tk += 1.0;
+                            x[0] = Sattelites[i].x;
+							y[0] = Sattelites[i].y;
+							z[0] = Sattelites[i].z;
 							//Расчёт следующих координат
-							Sattelites[i].tk += 2.0 * Settings.Step;
+							Sattelites[i].tk += 1.0;
 							if(Settings.Sattelites[i][0] == 'G' ||
 							   Settings.Sattelites[i][0] == 'E' ||
 							   Settings.Sattelites[i][0] == 'C')
@@ -468,59 +477,62 @@ int main(int argc, char **argv)
 							if(Settings.Sattelites[i][0] == 'R')
 							{
 								WGS84ToPZ90_02(Sattelites[i].x0, Sattelites[i].y0, Sattelites[i].z0,
-												  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
+											   &x[1], &y[1], &z[1]);
+								Sattelites[i].x0 = x[1];
+								Sattelites[i].y0 = y[1];
+								Sattelites[i].z0 = z[1];
 								GLOSatteliteXV(&Sattelites[i]);
-								PZ90_02ToWGS84(Sattelites[i].xi, Sattelites[i].yi, Sattelites[i].zi,
-											  &Sattelites[i].x, &Sattelites[i].y, &Sattelites[i].z);
+								PZ90_02ToWGS84(Sattelites[i].x, Sattelites[i].y, Sattelites[i].z,
+											   &x[1], &y[1], &z[1]);
+								Sattelites[i].x = x[1];
+								Sattelites[i].y = y[1];
+								Sattelites[i].z = z[1];
 							}
-							Sattelites[i].xi = Sattelites[i].x;
-							Sattelites[i].yi = Sattelites[i].y;
-							Sattelites[i].zi = Sattelites[i].z;
-							Sattelites[i].x = Sattelites[i].vx0;
-							Sattelites[i].y = Sattelites[i].vy0;
-							Sattelites[i].z = Sattelites[i].vz0;
-							Sattelites[i].tk -= Settings.Step;
+							x[1] = Sattelites[i].x;
+							y[1] = Sattelites[i].y;
+							z[1] = Sattelites[i].z;
+							Sattelites[i].x = x[2];
+							Sattelites[i].y = y[2];
+							Sattelites[i].z = z[2];
+							x[2] = x[1];
+							y[2] = y[1];
+							z[2] = z[1];
+							Sattelites[i].tk -= 1.0;
 						}
 
 						if(Ephemeris == PRECISE)
 						{
-							Sattelites[i].tk -= Settings.Step;
-							Sattelites[i].x0 =
-							Neville(InterpolationPoints[i].x,
-									InterpolationPoints[i].toc,
-									Sattelites[i].tk,
-									INTERPOLATION_ORDER + 1);
-							Sattelites[i].y0 =
-							Neville(InterpolationPoints[i].y,
-									InterpolationPoints[i].toc,
-									Sattelites[i].tk,
-									INTERPOLATION_ORDER + 1);
-							Sattelites[i].z0 =
-							Neville(InterpolationPoints[i].z,
-									InterpolationPoints[i].toc,
-									Sattelites[i].tk,
-									INTERPOLATION_ORDER + 1);
-							Sattelites[i].tk += 2.0 * Settings.Step;
-							Sattelites[i].xi =
-							Neville(InterpolationPoints[i].x,
-									InterpolationPoints[i].toc,
-									Sattelites[i].tk,
-									INTERPOLATION_ORDER + 1);
-							Sattelites[i].yi =
-							Neville(InterpolationPoints[i].y,
-									InterpolationPoints[i].toc,
-									Sattelites[i].tk,
-									INTERPOLATION_ORDER + 1);
-							Sattelites[i].zi =
-							Neville(InterpolationPoints[i].z,
-									InterpolationPoints[i].toc,
-									Sattelites[i].tk,
-									INTERPOLATION_ORDER + 1);
-							Sattelites[i].tk -= Settings.Step;
+							Sattelites[i].tk -= 1.0;
+							x[0] = Neville(InterpolationPoints[i].x,
+										   InterpolationPoints[i].toc,
+										   Sattelites[i].tk,
+										   INTERPOLATION_ORDER + 1);
+							y[0] = Neville(InterpolationPoints[i].y,
+										   InterpolationPoints[i].toc,
+										   Sattelites[i].tk,
+										   INTERPOLATION_ORDER + 1);
+							z[0] = Neville(InterpolationPoints[i].z,
+										   InterpolationPoints[i].toc,
+										   Sattelites[i].tk,
+										   INTERPOLATION_ORDER + 1);
+							Sattelites[i].tk += 2.0;
+							x[2] = Neville(InterpolationPoints[i].x,
+										   InterpolationPoints[i].toc,
+										   Sattelites[i].tk,
+										   INTERPOLATION_ORDER + 1);
+							y[2] = Neville(InterpolationPoints[i].y,
+										   InterpolationPoints[i].toc,
+										   Sattelites[i].tk,
+										   INTERPOLATION_ORDER + 1);
+							z[2] = Neville(InterpolationPoints[i].z,
+										   InterpolationPoints[i].toc,
+										   Sattelites[i].tk,
+										   INTERPOLATION_ORDER + 1);
+							Sattelites[i].tk -= 1.0;
 						}
-						Sattelites[i].vx = (Sattelites[i].xi - Sattelites[i].x0) / (2.0 * Settings.Step);
-						Sattelites[i].vy = (Sattelites[i].yi - Sattelites[i].y0) / (2.0 * Settings.Step);
-						Sattelites[i].vz = (Sattelites[i].zi - Sattelites[i].z0) / (2.0 * Settings.Step);
+						Sattelites[i].vx = (x[2] - x[0]) / 2.0;
+						Sattelites[i].vy = (y[2] - y[0]) / 2.0;
+						Sattelites[i].vz = (z[2] - z[0]) / 2.0;
 					}
 
 					if(Settings.x || Settings.y || Settings.z)
@@ -531,16 +543,16 @@ int main(int argc, char **argv)
 							Sattelites[i].S = (Sattelites[i].x * Settings.y - Sattelites[i].y * Settings.x) * OMEGAi_WGS84 / c;
 							tau = (Sattelites[i].rho + Sattelites[i].S) / c;
 							theta = -OMEGAi_WGS84 * tau;
-							Sattelites[i].xi = Sattelites[i].x * cos(theta) - Sattelites[i].y * sin(theta);
-							Sattelites[i].yi = Sattelites[i].x * sin(theta) + Sattelites[i].y * cos(theta);
-							Sattelites[i].x = Sattelites[i].xi;
-							Sattelites[i].y = Sattelites[i].yi;
+							x[1] = Sattelites[i].x * cos(theta) - Sattelites[i].y * sin(theta);
+							y[1] = Sattelites[i].x * sin(theta) + Sattelites[i].y * cos(theta);
+							Sattelites[i].x = x[1];
+							Sattelites[i].y = y[1];
 							if(Sattelites[i].vx || Sattelites[i].vy || Sattelites[i].vz)
 							{
-								Sattelites[i].xi = Sattelites[i].vx * cos(theta) - Sattelites[i].vy * sin(theta) + OMEGAi_WGS84 * Sattelites[i].y;
-								Sattelites[i].yi = Sattelites[i].vx * sin(theta) + Sattelites[i].vy * cos(theta) - OMEGAi_WGS84 * Sattelites[i].x;
-								Sattelites[i].vx = Sattelites[i].xi;
-								Sattelites[i].vy = Sattelites[i].yi;
+								x[1] = Sattelites[i].vx * cos(theta) - Sattelites[i].vy * sin(theta) + OMEGAi_WGS84 * Sattelites[i].y;
+								y[1] = Sattelites[i].vx * sin(theta) + Sattelites[i].vy * cos(theta) - OMEGAi_WGS84 * Sattelites[i].x;
+								Sattelites[i].vx = x[1];
+								Sattelites[i].vy = y[1];
 							}
 						}
 					}
