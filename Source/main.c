@@ -1,7 +1,7 @@
 /*
 	Программа нахождения местоположения спутников ГНСС
 	Sat
-	© Затолокин Д.А., 2015-2023
+	© Затолокин Д.А., 2015-2024
 */
 
 #include <stdio.h>
@@ -535,24 +535,28 @@ int main(int argc, char **argv)
 						Sattelites[i].vz = (z[2] - z[0]) / 2.0;
 					}
 
+
 					if(Settings.x || Settings.y || Settings.z)
 					{
 						for(k = 0; k < 2; k++)
 						{
 							Sattelites[i].rho = sqrt(sqr(Settings.x - Sattelites[i].x) + sqr(Settings.y - Sattelites[i].y) + sqr(Settings.z - Sattelites[i].z));
-							Sattelites[i].S = (Sattelites[i].x * Settings.y - Sattelites[i].y * Settings.x) * OMEGAi_WGS84 / c;
-							tau = (Sattelites[i].rho + Sattelites[i].S) / c;
-							theta = -OMEGAi_WGS84 * tau;
-							x[1] = Sattelites[i].x * cos(theta) - Sattelites[i].y * sin(theta);
-							y[1] = Sattelites[i].x * sin(theta) + Sattelites[i].y * cos(theta);
-							Sattelites[i].x = x[1];
-							Sattelites[i].y = y[1];
-							if(Sattelites[i].vx || Sattelites[i].vy || Sattelites[i].vz)
+							if(k == 0)
 							{
-								x[1] = Sattelites[i].vx * cos(theta) - Sattelites[i].vy * sin(theta) + OMEGAi_WGS84 * Sattelites[i].y;
-								y[1] = Sattelites[i].vx * sin(theta) + Sattelites[i].vy * cos(theta) - OMEGAi_WGS84 * Sattelites[i].x;
-								Sattelites[i].vx = x[1];
-								Sattelites[i].vy = y[1];
+								Sattelites[i].S = (Sattelites[i].x * Settings.y - Sattelites[i].y * Settings.x) * OMEGAi_WGS84 / c;
+								tau = (Sattelites[i].rho + Sattelites[i].S) / c;
+								theta = -OMEGAi_WGS84 * tau;
+								x[1] = Sattelites[i].x * cos(theta) - Sattelites[i].y * sin(theta);
+								y[1] = Sattelites[i].x * sin(theta) + Sattelites[i].y * cos(theta);
+								Sattelites[i].x = x[1];
+								Sattelites[i].y = y[1];
+								if(Sattelites[i].vx || Sattelites[i].vy || Sattelites[i].vz)
+								{
+									x[1] = Sattelites[i].vx * cos(theta) - Sattelites[i].vy * sin(theta) + OMEGAi_WGS84 * Sattelites[i].y;
+									y[1] = Sattelites[i].vx * sin(theta) + Sattelites[i].vy * cos(theta) - OMEGAi_WGS84 * Sattelites[i].x;
+									Sattelites[i].vx = x[1];
+									Sattelites[i].vy = y[1];
+								}
 							}
 						}
 					}
@@ -564,6 +568,10 @@ int main(int argc, char **argv)
 
 					if(Ephemeris == PRECISE)
 					{
+                        if(Sattelites[i].vx || Sattelites[i].vy || Sattelites[i].vz)
+						{
+							Sattelites[i].dt += -2.0 * (Sattelites[i].x * Sattelites[i].vx + Sattelites[i].y * Sattelites[i].vy + Sattelites[i].z * Sattelites[i].vz) / sqr(c);
+						}
 						Sattelites[i].tk = CurrentTime - tau - Sattelites[i].dt;
 					}
 				}

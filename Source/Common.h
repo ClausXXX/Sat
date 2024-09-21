@@ -47,14 +47,14 @@ struct Sattelite
 
 struct InterpolationPoints
 {
-	double x[INTERPOLATION_ORDER + 1],
+	double toc[INTERPOLATION_ORDER + 1],
+		   x[INTERPOLATION_ORDER + 1],
 		   y[INTERPOLATION_ORDER + 1],
 		   z[INTERPOLATION_ORDER + 1],
 		   vx[INTERPOLATION_ORDER + 1],
 		   vy[INTERPOLATION_ORDER + 1],
 		   vz[INTERPOLATION_ORDER + 1],
-		   dt[INTERPOLATION_ORDER + 1],
-		   toc[INTERPOLATION_ORDER + 1];
+		   dt[INTERPOLATION_ORDER + 1];
 };
 
 char* FindStringWithData(FILE*, const char*);

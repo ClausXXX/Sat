@@ -36,6 +36,7 @@ void FindRINEXEphemeris(struct Settings *Settings, struct RINEXNav *RINEXNav,
 						Sattelites[i].Valid = 1;
 						Sattelites[i].Number[0] = RINEXNav->GPSEphemeris[j].Number[0];
 						Sattelites[i].Number[1] = RINEXNav->GPSEphemeris[j].Number[1];
+						Sattelites[i].toc = RINEXNav->GPSEphemeris[j].toc;
 						Sattelites[i].a0 = RINEXNav->GPSEphemeris[j].a0;
 						Sattelites[i].a1 = RINEXNav->GPSEphemeris[j].a1;
 						Sattelites[i].a2 = RINEXNav->GPSEphemeris[j].a2;
@@ -57,7 +58,6 @@ void FindRINEXEphemeris(struct Settings *Settings, struct RINEXNav *RINEXNav,
 						Sattelites[i].ii = RINEXNav->GPSEphemeris[j].ii;
 						Sattelites[i].Health = RINEXNav->GPSEphemeris[j].Health;
 						Sattelites[i].TGD = RINEXNav->GPSEphemeris[j].TGD;
-						Sattelites[i].toc = RINEXNav->GPSEphemeris[j].toc;
 						Sattelites[i].tk = CurrentTime - Sattelites[i].toc;
 						//printf("\n%c%d %lf", Sattelites[i].Number[0],  Sattelites[i].Number[1], Sattelites[i].SecondsFromEpoch);
 					}
@@ -77,6 +77,7 @@ void FindRINEXEphemeris(struct Settings *Settings, struct RINEXNav *RINEXNav,
 						Sattelites[i].Valid = 1;
 						Sattelites[i].Number[0] = RINEXNav->GLOEphemeris[j].Number[0];
 						Sattelites[i].Number[1] = RINEXNav->GLOEphemeris[j].Number[1];
+                        Sattelites[i].toc = RINEXNav->GLOEphemeris[j].toc + RINEXNav->LeapSeconds;
 						Sattelites[i].TauN = -RINEXNav->GLOEphemeris[j].TauN;
 						Sattelites[i].GammaN = RINEXNav->GLOEphemeris[j].GammaN;
 						Sattelites[i].x0 = RINEXNav->GLOEphemeris[j].x0 * 1000.0;
@@ -90,7 +91,6 @@ void FindRINEXEphemeris(struct Settings *Settings, struct RINEXNav *RINEXNav,
 						Sattelites[i].z0 = RINEXNav->GLOEphemeris[j].z0 * 1000.0;
 						Sattelites[i].vz0 = RINEXNav->GLOEphemeris[j].vz0 * 1000.0;
 						Sattelites[i].az = RINEXNav->GLOEphemeris[j].az * 1000.0;
-						Sattelites[i].toc = RINEXNav->GLOEphemeris[j].toc + RINEXNav->LeapSeconds;
 						Sattelites[i].tk = CurrentTime - Sattelites[i].toc;
 					}
 					j++;
@@ -111,6 +111,7 @@ void FindRINEXEphemeris(struct Settings *Settings, struct RINEXNav *RINEXNav,
                         Sattelites[i].GALNavMsgType = RINEXNav->GALEphemeris[j].GALNavMsgType;
 						Sattelites[i].Number[0] = RINEXNav->GALEphemeris[j].Number[0];
 						Sattelites[i].Number[1] = RINEXNav->GALEphemeris[j].Number[1];
+                        Sattelites[i].toc = RINEXNav->GALEphemeris[j].toc;
 						Sattelites[i].a0 = RINEXNav->GALEphemeris[j].a0;
 						Sattelites[i].a1 = RINEXNav->GALEphemeris[j].a1;
 						Sattelites[i].a2 = RINEXNav->GALEphemeris[j].a2;
@@ -134,7 +135,6 @@ void FindRINEXEphemeris(struct Settings *Settings, struct RINEXNav *RINEXNav,
 						Sattelites[i].Health = RINEXNav->GALEphemeris[j].Health;
 						Sattelites[i].BGD_E1_E5a = RINEXNav->GALEphemeris[j].BGD_E1_E5a;
 						Sattelites[i].BGD_E1_E5b = RINEXNav->GALEphemeris[j].BGD_E1_E5b;
-						Sattelites[i].toc = RINEXNav->GALEphemeris[j].toc;
 						Sattelites[i].tk = CurrentTime - Sattelites[i].toc;
 					}
 					j++;
@@ -153,6 +153,7 @@ void FindRINEXEphemeris(struct Settings *Settings, struct RINEXNav *RINEXNav,
 						Sattelites[i].Valid = 1;
 						Sattelites[i].Number[0] = RINEXNav->BDSEphemeris[j].Number[0];
 						Sattelites[i].Number[1] = RINEXNav->BDSEphemeris[j].Number[1];
+                        Sattelites[i].toc = RINEXNav->BDSEphemeris[j].toc + 14.0;
 						Sattelites[i].a0 = RINEXNav->BDSEphemeris[j].a0;
 						Sattelites[i].a1 = RINEXNav->BDSEphemeris[j].a1;
 						Sattelites[i].a2 = RINEXNav->BDSEphemeris[j].a2;
@@ -174,7 +175,6 @@ void FindRINEXEphemeris(struct Settings *Settings, struct RINEXNav *RINEXNav,
 						Sattelites[i].ii = RINEXNav->BDSEphemeris[j].ii;
 						Sattelites[i].TGD1_B1_B3 = RINEXNav->BDSEphemeris[j].TGD1_B1_B3;
 						Sattelites[i].TGD2_B2_B3 = RINEXNav->BDSEphemeris[j].TGD2_B2_B3;
-						Sattelites[i].toc = RINEXNav->BDSEphemeris[j].toc + 14.0;
 						Sattelites[i].tk = CurrentTime - Sattelites[i].toc;
 					}
 					j++;
@@ -251,11 +251,11 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 								Sattelites[i].Number[1] = SP3->GPSEphemeris[l].Number[1];
 								Sattelites[i].tk = CurrentTime;
 							}
+							InterpolationPoints[i].toc[m] = SP3->GPSEphemeris[l].toc;
 							InterpolationPoints[i].x[m] = SP3->GPSEphemeris[l].x * 1000.0;
 							InterpolationPoints[i].y[m] = SP3->GPSEphemeris[l].y * 1000.0;
 							InterpolationPoints[i].z[m] = SP3->GPSEphemeris[l].z * 1000.0;
 							InterpolationPoints[i].dt[m] = SP3->GPSEphemeris[l].dt * 1E-6;
-							InterpolationPoints[i].toc[m] = SP3->GPSEphemeris[l].toc;
 							m++;
 							l = SP3->NOfGPSEphemeris;
 						}
@@ -296,11 +296,11 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 								Sattelites[i].k = GLOFreqLiters[Sattelites[i].Number[1] - 1];
 								Sattelites[i].tk = CurrentTime;
 							}
+							InterpolationPoints[i].toc[m] = SP3->GLOEphemeris[l].toc;
 							InterpolationPoints[i].x[m] = SP3->GLOEphemeris[l].x * 1000.0;
 							InterpolationPoints[i].y[m] = SP3->GLOEphemeris[l].y * 1000.0;
 							InterpolationPoints[i].z[m] = SP3->GLOEphemeris[l].z * 1000.0;
 							InterpolationPoints[i].dt[m] = SP3->GLOEphemeris[l].dt * 1E-6;
-							InterpolationPoints[i].toc[m] = SP3->GLOEphemeris[l].toc;
 							m++;
 							l = SP3->NOfGLOEphemeris;
 						}
@@ -340,11 +340,11 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 								Sattelites[i].Number[1] = SP3->GALEphemeris[l].Number[1];
 								Sattelites[i].tk = CurrentTime;
 							}
+							InterpolationPoints[i].toc[m] = SP3->GALEphemeris[l].toc;
 							InterpolationPoints[i].x[m] = SP3->GALEphemeris[l].x * 1000.0;
 							InterpolationPoints[i].y[m] = SP3->GALEphemeris[l].y * 1000.0;
 							InterpolationPoints[i].z[m] = SP3->GALEphemeris[l].z * 1000.0;
 							InterpolationPoints[i].dt[m] = SP3->GALEphemeris[l].dt * 1E-6;
-							InterpolationPoints[i].toc[m] = SP3->GALEphemeris[l].toc;
 							//InterpolationPoints[i].t[m] = RINEXObs->Epochs[RINEXObs->CurrentEpoch].t - tau - InterpolationPoints[i].toc[m];
 							m++;
 							l = SP3->NOfGALEphemeris;
@@ -385,11 +385,11 @@ void FindSP3Ephemeris(struct Settings *Settings, struct SP3 *SP3,
 								Sattelites[i].Number[1] = SP3->BDSEphemeris[l].Number[1];
                                 Sattelites[i].tk = CurrentTime;
 							}
+                            InterpolationPoints[i].toc[m] = SP3->BDSEphemeris[l].toc;
 							InterpolationPoints[i].x[m] = SP3->BDSEphemeris[l].x * 1000.0;
 							InterpolationPoints[i].y[m] = SP3->BDSEphemeris[l].y * 1000.0;
 							InterpolationPoints[i].z[m] = SP3->BDSEphemeris[l].z * 1000.0;
 							InterpolationPoints[i].dt[m] = SP3->BDSEphemeris[l].dt * 1E-6;
-							InterpolationPoints[i].toc[m] = SP3->BDSEphemeris[l].toc;
 							m++;
 							l = SP3->NOfBDSEphemeris;
 						}

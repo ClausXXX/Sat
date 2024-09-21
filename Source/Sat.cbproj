@@ -3,11 +3,12 @@
         <ProjectGuid>{8524381E-97B8-4FA6-A738-BF6A2CB0D1AE}</ProjectGuid>
         <ProjectVersion>19.5</ProjectVersion>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <AppType>Console</AppType>
         <FrameworkType>None</FrameworkType>
         <TargetedPlatforms>3</TargetedPlatforms>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <CC_Suffix Condition="'$(CC_Suffix)'==''">c</CC_Suffix>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -105,11 +106,11 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Defines>_DEBUG;$(Defines)</Defines>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <VerInfo_Keys>CompanyName=;FileDescription=Программа определения местоположения спутников ГНСС;FileVersion=1.0.0.0;InternalName=;LegalCopyright=© Затолокин Д.А., 2015-2020;LegalTrademarks=;OriginalFilename=;ProductName=Sat;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=Программа определения местоположения спутников ГНСС;FileVersion=1.1.0.0;InternalName=;LegalCopyright=© Затолокин Д.А., 2015-2024;LegalTrademarks=;OriginalFilename=;ProductName=Sat;ProductVersion=1.1.0.0;Comments=</VerInfo_Keys>
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)$(CC_SUFFIX)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_UseClassicCompiler>true</BCC_UseClassicCompiler>
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DynamicRTL>false</DynamicRTL>

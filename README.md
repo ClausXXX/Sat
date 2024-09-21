@@ -12,8 +12,9 @@ Main features of the program:
 - support for airborne ephemeris files in RINEX format versions 2.xx and 3.xx, precise ephemeris files .sp3;
 - control of source data;
 - finding the coordinates and velocity components of satellites in a certain time interval with a given step;
+- the ability to choose a method for calculating the speed of satellites - using ephemeris or by numerical differentiation of coordinates;
 - in case of entering the coordinates of the receiver, the azimuth, elevation angle and geometric distance to the satellite at the time of sending the signal are calculated;
 - output data to the screen and to a text file.
 
-© Zatolokin D.A. 2015-2023
+© Zatolokin D.A. 2015-2024
 clausxxx@rambler.ru

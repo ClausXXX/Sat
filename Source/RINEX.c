@@ -7,7 +7,6 @@
 #include <string.h>
 #include <time.h>
 
-
 int ReadRINEXEphemeris(char *EphemerisFileName, struct RINEXNav *RINEXNav)
 {
 	int i, j;
